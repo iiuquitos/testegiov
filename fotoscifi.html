@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Beleza - Sci-Fi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            overflow: hidden;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .main-container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .scan-container {
+            position: relative;
+            width: 400px;
+            height: 500px;
+            transition: all 0.3s ease;
+        }
+
+        .subject-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .stats-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 15px;
+            opacity: 0;
+            transition: all 0.5s ease;
+            padding: 20px;
+            color: #0ff;
+            border: 2px solid #0ff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .scan-container:hover .stats-overlay {
+            opacity: 1;
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.5);
+        }
+
+        .stats-title {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #0ff;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            flex-grow: 1;
+        }
+
+        .stat-item {
+            background: rgba(0, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #0ff;
+        }
+
+        .stat-label {
+            color: #0ff;
+            font-size: 0.8em;
+        }
+
+        .stat-value {
+            color: #fff;
+            font-size: 1.2em;
+            margin-top: 5px;
+        }
+
+        .glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .continue-btn {
+            background: transparent;
+            border: 2px solid #0ff;
+            color: #0ff;
+            padding: 10px 30px;
+            border-radius: 25px;
+            font-family: 'Orbitron', sans-serif;
+            margin: 20px auto 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .continue-btn:hover {
+            background: rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 15px #0ff;
+            transform: scale(1.05);
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0ff, 0 0 20px #0ff;
+            }
+            to {
+                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0ff, 0 0 40px #0ff;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <div class="main-container">
+        <div class="scan-container">
+            <img src="https://media.discordapp.net/attachments/950742861622698034/1343548199314391110/image.jpg?ex=67bdac44&is=67bc5ac4&hm=68aec88489d3bb6b294c02d9bc93cc6b77ee6cee07da6e1acf963a1973a61025&=&format=webp&width=323&height=600" 
+                 class="subject-image" 
+                 alt="Perfil Analisado">
+            
+            <div class="stats-overlay">
+                <h2 class="stats-title glow">ANÁLISE DE IMAGEM</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">SIMETRIA FACIAL</div>
+                        <div class="stat-value">100%</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">HARMONIA</div>
+                        <div class="stat-value">10/10</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">PROPORÇÃO ÁUREA</div>
+                        <div class="stat-value">1.618</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">ATRATIVIDADE</div>
+                        <div class="stat-value">100%</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">OLHAR</div>
+                        <div class="stat-value">100%</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">RARIDADE</div>
+                        <div class="stat-value">ÚNICO</div>
+                    </div>
+                </div>
+                <button class="continue-btn" onclick="window.location.href='nova_pagina.html'">CONTINUAR ▶</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Configuração das partículas
+        particlesJS('particles-js',
+            {
+                "particles": {
+                    "number": {
+                        "value": 150,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#ffffff"
+                    },
+                    "shape": {
+                        "type": "circle"
+                    },
+                    "opacity": {
+                        "value": 0.5,
+                        "random": true
+                    },
+                    "size": {
+                        "value": 2,
+                        "random": true
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#ffffff",
+                        "opacity": 0.4,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 3,
+                        "direction": "none",
+                        "random": false,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "repulse"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    }
+                },
+                "retina_detect": true
+            }
+        );
+    </script>
+</body>
+</html>
