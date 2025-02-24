@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ᯓᡣ𐭩</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1a1a;
+            color: #ff99c8;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .page-title {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            font-size: 2.2em;
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(45deg, #ff3366, #ff69b4, #ff1493, #ff3366);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 8s ease infinite;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            white-space: nowrap;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .cart-header {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cart-icon {
+            font-size: 28px;
+            cursor: pointer;
+            color: #ff69b4;
+            filter: drop-shadow(0 0 5px rgba(255,105,180,0.3));
+        }
+
+        .cart-count {
+            background: #ff3366;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .products-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            max-width: 800px;
+            margin: 100px auto 80px;
+            padding: 20px;
+        }
+
+        .product-card {
+            background: #2d2d2d;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #ff336633;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(255, 51, 102, 0.2);
+        }
+
+        .product-image {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(45deg, #2d1a24, #3d1e2a);
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-name {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+            color: #ff69b4;
+        }
+
+        .product-store {
+            color: #ff99c8;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 1.4em;
+            margin: 15px 0;
+            color: #ff4d94;
+        }
+
+        .buy-button {
+            background: linear-gradient(45deg, #ff3366, #ff69b4);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .buy-button:hover {
+            background: linear-gradient(45deg, #ff1a4d, #ff4d94);
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.3);
+        }
+
+        .buy-button.selected {
+            background: linear-gradient(45deg, #ff1493, #ff3366);
+            padding-right: 35px;
+        }
+
+        .buy-button.selected::after {
+            content: '✕';
+            position: absolute;
+            right: 12px;
+            font-size: 0.9em;
+            color: white;
+        }
+
+        .success-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2d2d2d;
+            color: #ff99c8;
+            padding: 15px 30px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 3;
+            display: none;
+            border: 1px solid #ff336633;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles"></div>
+    
+    <h1 class="page-title">Escolha uma aliança</h1>
+    
+    <div class="cart-header">
+        <div class="cart-count">0</div>
+        <div class="cart-icon">🛒</div>
+    </div>
+
+    <div class="products-grid">
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://cdn.discordapp.com/attachments/950742861622698034/1343316555253022861/alianca3.png?ex=67bcd488&is=67bb8308&hm=afbd96eb74a18a7a4e8a09b67a8e43c955e3054065bb52110bdf10953f88851e&" alt="Aliança Eterna">
+            </div>
+            <h3 class="product-name">Prata Viena 328/328P 3mm</h3>
+            <p class="product-store">Lóra Alianças & Joias</p>
+            <p class="product-price">R$ 499,99</p>
+            <button class="buy-button" onclick="toggleSelection(this)">Comprar</button>
+        </div>
+
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://images.tcdn.com.br/img/img_prod/932431/aliancas_namoro_minilove_duo_2_mm_prata_anel_de_brinde_1737_1_16b980040c92e436c374a0a7bfddbc49.jpeg" alt="Aliança Diamante">
+            </div>
+            <h3 class="product-name">MiniLove Duo 2 mm Prata</h3>
+            <p class="product-store">Le Diamant Joias</p>
+            <p class="product-price">R$ 387,00</p>
+            <button class="buy-button" onclick="toggleSelection(this)">Comprar</button>
+        </div>
+
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://images.tcdn.com.br/img/img_prod/1106693/conjunto_de_aliancas_de_namoro_cherry_2mm_em_prata_950_c_solitario_believe_pink_1452_1_ffb72400a124307e86b9c40ca879b158.jpeg" alt="Aliança Simples">
+            </div>
+            <h3 class="product-name">Conjunto CHERRY 2mm em Prata 950</h3>
+            <p class="product-store">Andrade Joias</p>
+            <p class="product-price">R$ 399,99</p>
+            <button class="buy-button" onclick="toggleSelection(this)">Comprar</button>
+        </div>
+
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://images.tcdn.com.br/img/img_prod/822686/alianca_de_namoro_2_5_mm_lisa_com_solitario_cravejado_1599_1_c549eb1a4a27c7e644152e654f22fc72.jpg" alt="Aliança Premium">
+            </div>
+            <h3 class="product-name">Aliança de 2,5 mm Lisa com Solitário Cravejado</h3>
+            <p class="product-store">Lourdes Alianças</p>
+            <p class="product-price">R$ 469,20</p>
+            <button class="buy-button" onclick="toggleSelection(this)">Comprar</button>
+        </div>
+    </div>
+
+    <div class="success-message">
+        Parabéns pela escolha! Clique no carrinho para continuar 🛒
+    </div>
+
+    <script>
+        const particlesCanvas = document.createElement('canvas');
+        const ctx = particlesCanvas.getContext('2d');
+        particlesCanvas.id = 'particles';
+        document.body.prepend(particlesCanvas);
+
+        let particles = [];
+        const mouse = { x: 0, y: 0 };
+        let selectedProduct = null;
+        const cartCount = document.querySelector('.cart-count');
+        const successMessage = document.querySelector('.success-message');
+
+        const particleSettings = {
+            particleCount: 40,
+            maxSpeed: 0.3,
+            particleSize: 2,
+            colors: ['#ff3366', '#ff69b4']
+        };
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * particlesCanvas.width;
+                this.y = Math.random() * particlesCanvas.height;
+                this.vx = (Math.random() - 0.5) * particleSettings.maxSpeed;
+                this.vy = (Math.random() - 0.5) * particleSettings.maxSpeed;
+                this.color = particleSettings.colors[Math.floor(Math.random() * particleSettings.colors.length)];
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if(this.x < 0 || this.x > particlesCanvas.width) this.vx *= -1;
+                if(this.y < 0 || this.y > particlesCanvas.height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, particleSettings.particleSize, 0, Math.PI*2);
+                ctx.fill();
+            }
+        }
+
+        function toggleSelection(button) {
+            if (selectedProduct === button) {
+                selectedProduct = null;
+                cartCount.textContent = '0';
+                successMessage.style.display = 'none';
+                button.classList.remove('selected');
+                button.textContent = 'Comprar';
+                button.style.background = 'linear-gradient(45deg, #ff3366, #ff69b4)';
+            } else {
+                if (selectedProduct) {
+                    alert('Selecione apenas um item por vez');
+                    return;
+                }
+                
+                selectedProduct = button;
+                cartCount.textContent = '1';
+                successMessage.style.display = 'block';
+                button.classList.add('selected');
+                button.textContent = 'Selecionado';
+                button.style.background = 'linear-gradient(45deg, #ff1493, #ff3366)';
+            }
+        }
+
+        document.querySelector('.cart-icon').addEventListener('click', () => {
+            if(selectedProduct) {
+                window.location.href = 'loja2.html';
+            }
+        });
+
+        function initParticles() {
+            particlesCanvas.width = window.innerWidth;
+            particlesCanvas.height = window.innerHeight;
+            
+            for(let i = 0; i < particleSettings.particleCount; i++) {
+                particles.push(new Particle());
+            }
+
+            window.addEventListener('resize', () => {
+                particlesCanvas.width = window.innerWidth;
+                particlesCanvas.height = window.innerHeight;
+            });
+
+            particlesCanvas.addEventListener('mousemove', (e) => {
+                const rect = particlesCanvas.getBoundingClientRect();
+                mouse.x = e.clientX - rect.left;
+                mouse.y = e.clientY - rect.top;
+            });
+
+            animate();
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        initParticles();
+
+        document.querySelectorAll('.product-image img').forEach(img => {
+            img.onerror = function() {
+                this.style.display = 'none';
+                const placeholder = document.createElement('div');
+                placeholder.className = 'image-placeholder';
+                placeholder.textContent = 'Imagem não disponível';
+                this.parentElement.appendChild(placeholder);
+            }
+        });
+    </script>
+</body>
+</html>

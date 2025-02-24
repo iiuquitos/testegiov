@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARTE 1 - Mini Quiz</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 105, 180, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 600px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .tweet-container {
+            margin: 20px 0;
+        }
+
+        .pergunta {
+            color: #ff69b4;
+            margin: 20px 0;
+            font-size: 1.2em;
+        }
+
+        .options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .sim-btn {
+            background-color: #ff1493;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.4);
+        }
+
+        .nao-btn {
+            background-color: #2d2d2d;
+            color: white;
+            box-shadow: 0 4px 15px rgba(45, 45, 45, 0.4);
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.6);
+        }
+
+        h1 {
+            color: #ff69b4;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <h1>Mini Quiz - PARTE 1</h1>
+
+        <div class="tweet-container">
+            <blockquote class="twitter-tweet" data-theme="dark" data-dnt="true" align="center"><p lang="pt" dir="ltr">Vocês vão começar a namorar em Março, apenas reivindique me seguindo</p>&mdash; previsões (@preverei) <a href="https://twitter.com/preverei/status/1893646490968490219?ref_src=twsrc%5Etfw">February 23, 2025</a></blockquote>
+        </div>
+
+        <div class="pergunta">Você acha que isso seja verdade?<br>(desconsidera a parte do seguindo)</div>
+
+        <div class="options">
+            <button class="sim-btn" onclick="responder('sim')">SIM</button>
+            <button class="nao-btn" onclick="responder('nao')">NÃO</button>
+        </div>
+    </div>
+
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script>
+        // Sistema de partículas
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Posição inicial aleatória
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                // Tamanho e animação
+                const size = Math.random() * 3 + 1;
+                const duration = Math.random() * 10 + 5;
+                
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.animation = `float ${duration}s infinite ease-in-out`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // Animação de flutuação
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0%, 100% { transform: translateY(0) translateX(0); }
+                25% { transform: translateY(-20px) translateX(10px); }
+                50% { transform: translateY(10px) translateX(-10px); }
+                75% { transform: translateY(-10px) translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Inicializa partículas
+        document.addEventListener('DOMContentLoaded', createParticles);
+
+        // Sistema de respostas
+        function responder(resposta) {
+            if (resposta === 'sim') {
+                alert('Perfeito, mas espero que não seja com outra pessoa. Vamos continuar');
+                window.location.href = 'pagina-4.html';
+            } else {
+                alert('Entendo, então acho que vou ter que te convencer do contrário. Vamos jogar novamente!');
+                window.location.href = 'resp-incorreta.html';
+            }
+        }
+    </script>
+</body>
+</html>

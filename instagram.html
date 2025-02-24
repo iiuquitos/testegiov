@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ᯓᡣ𐭩</title>
+    <style>
+        :root {
+            --dark-bg: #121212;
+            --text-primary: #ffffff;
+            --accent-green: #00ff7f;
+            --button-bg: #262626;
+            --border-color: #363636;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 935px;
+            margin: 0 auto;
+        }
+
+        /* Header do Perfil */
+        .profile-header {
+            display: flex;
+            gap: 30px;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profile-pic {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+        }
+
+        .instruction-message {
+            text-align: center;
+            margin: 40px 0 80px;
+            color: #999;
+            font-size: 0.9em;
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .instruction-message {
+                font-size: 0.85em;
+                padding: 15px;
+                margin: 30px 0 50px;
+            }
+        }
+
+        .profile-pic::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border: 3px solid var(--accent-green);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-info {
+            flex-grow: 1;
+        }
+
+        .username {
+            font-size: 28px;
+            margin: 0 0 10px;
+            font-weight: 300;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 40px;
+            margin: 20px 0;
+        }
+
+        .profile-stats div {
+            text-align: center;
+        }
+
+        .profile-stats span {
+            font-weight: 600;
+            display: block;
+        }
+
+        .bio {
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+
+        /* Botões */
+        .button-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 8px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--button-bg);
+            color: var(--text-primary);
+        }
+
+        .btn-primary:hover {
+            background-color: #363636;
+        }
+
+        /* Feed */
+        .feed-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-top: 50px;
+        }
+
+        .post {
+            position: relative;
+            aspect-ratio: 1/1;
+            background: var(--button-bg);
+            border-radius: 3px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .post:hover {
+            transform: scale(1.03);
+        }
+
+        .post img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 5px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: -35px;
+            right: -35px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .button-group {
+                justify-content: center;
+            }
+
+            .feed-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .close-btn {
+                top: -25px;
+                right: -10px;
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="profile-header">
+            <a href="storie1.html" class="profile-pic">
+                <img src="https://cdn.discordapp.com/attachments/950742861622698034/1343323515121565868/gio_instagram_pfp.jpg?ex=67bcdb03&is=67bb8983&hm=d2ffca5997a014313f1e59be29b2d0bb36eb845971970af899f17eab279de3cc&" alt="Foto de perfil">
+            </a>
+            
+            <div class="profile-info">
+                <div class="username">giihf__</div>
+                <div class="profile-stats">
+                    <div><span>3</span> publicações</div>
+                    <div><span>1.624</span> seguidores</div>
+                    <div><span>1.078</span> seguindo</div>
+                </div>
+                <div class="bio">
+                    <strong>giovanna</strong><br>
+                    cree en ti mismo<br>
+                    shre.ink/spotifyprofile<br>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-primary">Editar perfil</button>
+                    <button class="btn btn-primary">Compartilhar perfil</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="feed-grid">
+            <div class="post">
+                <img src="https://cdn.discordapp.com/attachments/950742861622698034/1343324218166870106/472838785_1323351938674252_623471657892203453_n.png?ex=67bcdbab&is=67bb8a2b&hm=7ef6f64634a1374006873872ad416185e32d9aec7b039837aaa453055ae45c64&" alt="Post 1">
+            </div>
+            <div class="post">
+                <img src="https://cdn.discordapp.com/attachments/950742861622698034/1343324415232049213/475951385_1323942005510058_2555521354178856567_n.png?ex=67bcdbda&is=67bb8a5a&hm=8a8d0298e14490959267992230c7518cc7c2f1d4dcc32c0cc19ead5cfbca664c&" alt="Post 2">
+            </div>
+            <div class="post">
+                <img src="https://cdn.discordapp.com/attachments/950742861622698034/1343324734863183902/pR8toZm8.png?ex=67bcdc26&is=67bb8aa6&hm=d92e46c1ff6ac737385b0042eccbcc5aabc2c0f348c8d1874b856868c631efce&" alt="Post 3">
+            </div>
+        </div>
+
+        <div class="instruction-message">
+            Agora, olhe bem para a dona desse perfil<br>
+            e depois que estiver tudo certo<br>
+            clique na foto de perfil para prosseguir
+        </div>
+
+        <!-- Lightbox -->
+        <div class="lightbox" id="lightbox">
+            <button class="close-btn">&times;</button>
+            <div class="lightbox-content">
+                <img class="lightbox-img" src="" alt="Imagem ampliada">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Lightbox
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.querySelector('.lightbox-img');
+        const posts = document.querySelectorAll('.post');
+
+        posts.forEach(post => {
+            post.addEventListener('click', () => {
+                const imgSrc = post.querySelector('img').src;
+                lightbox.classList.add('active');
+                document.body.classList.add('no-scroll');
+                lightboxImg.src = imgSrc;
+            });
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox || e.target.classList.contains('close-btn')) {
+                lightbox.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                lightbox.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+            }
+        });
+    </script>
+</body>
+</html>

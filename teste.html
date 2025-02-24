@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ᯓᡣ𐭩</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        #container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .message {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ff3366;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+
+        .message.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <canvas id="canvas"></canvas>
+        <div class="message">
+            <h1>Clica em qualquer lugar para continuar!</h1>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Configurações Avançadas
+        const settings = {
+            heartParticles: 400,   // Contorno detalhado
+            innerParticles: 2000,    // Partículas internas
+            particleSize: 2,
+            mouseForce: 20,
+            heartScale: 20,
+            baseSpeed: 0.03,        // Velocidade base
+            turbulence: 0.03        // Variação de movimento
+        };
+
+        // Redimensionar canvas
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor(x, y, isInner = false) {
+                this.baseX = x;
+                this.baseY = y;
+                this.x = x;
+                this.y = y;
+                this.dx = 0;
+                this.dy = 0;
+                this.isInner = isInner;
+                
+                // Propriedades para movimento complexo
+                this.angle = Math.random() * Math.PI * 2;
+                this.speed = settings.baseSpeed * (0.5 + Math.random());
+                this.radiusX = 30 + Math.random() * 20;
+                this.radiusY = 40 + Math.random() * 20;
+                this.phase = Math.random() * Math.PI * 2;
+            }
+
+            update(mouse) {
+                // Interação com o mouse
+                const distX = this.x - mouse.x;
+                const distY = this.y - mouse.y;
+                const distance = Math.sqrt(distX * distX + distY * distY);
+                
+                if (distance < 120) {
+                    const force = (120 - distance) / 120 * settings.mouseForce;
+                    this.dx += (distX / distance) * force;
+                    this.dy += (distY / distance) * force;
+                }
+
+                // Movimento interno complexo
+                if (this.isInner) {
+                    this.angle += this.speed;
+                    
+                    // Movimento em 8 com variação suave
+                    const targetX = this.baseX + 
+                        Math.cos(this.angle) * this.radiusX +
+                        Math.sin(this.angle * 2) * 15;
+                        
+                    const targetY = this.baseY + 
+                        Math.sin(this.angle) * this.radiusY +
+                        Math.cos(this.angle * 1.5) * 10;
+
+                    // Adicionar turbulência
+                    this.dx += (targetX - this.x) * settings.turbulence + (Math.random() - 0.5) * 0.3;
+                    this.dy += (targetY - this.y) * settings.turbulence + (Math.random() - 0.5) * 0.3;
+                } else {
+                    // Retorno suave do contorno
+                    this.dx += (this.baseX - this.x) * 0.08;
+                    this.dy += (this.baseY - this.y) * 0.08;
+                }
+
+                // Atualizar posição
+                this.x += this.dx;
+                this.y += this.dy;
+                this.dx *= 0.82;
+                this.dy *= 0.82;
+            }
+
+            draw() {
+                // Gradiente de cores para partículas internas
+                if(this.isInner) {
+                    const gradient = ctx.createRadialGradient(
+                        this.x, this.y, 0, 
+                        this.x, this.y, settings.particleSize*2
+                    );
+                    gradient.addColorStop(0, '#FF0000');
+                    gradient.addColorStop(1, '#CC0000');
+                    ctx.fillStyle = gradient;
+                } else {
+                    ctx.fillStyle = '#ff3366';
+                }
+                
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, settings.particleSize, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Sistema de partículas
+        let particles = [];
+        const mouse = { x: 0, y: 0 };
+
+        function createParticles() {
+            particles = [];
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+
+            // Contorno ultra-detalhado
+            for (let angle = 0; angle < Math.PI * 2; angle += Math.PI * 2 / settings.heartParticles) {
+                const x = 16 * Math.pow(Math.sin(angle), 3);
+                const y = -1 * (13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle));
+                
+                particles.push(new Particle(
+                    centerX + x * settings.heartScale,
+                    centerY + y * settings.heartScale
+                ));
+            }
+
+            // Partículas internas com padrões complexos
+            for (let i = 0; i < settings.innerParticles; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const x = 16 * Math.pow(Math.sin(angle), 3) * settings.heartScale * 0.5;
+                const y = -1 * (13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle)) * settings.heartScale * 0.5;
+                
+                particles.push(new Particle(
+                    centerX + x,
+                    centerY + y,
+                    true
+                ));
+            }
+        }
+
+        // Animação
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Desenhar em camadas
+            particles.forEach(particle => {
+                particle.update(mouse);
+                particle.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        // Event listeners
+        canvas.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+            document.querySelector('.message').classList.add('show');
+        });
+
+        canvas.addEventListener('click', () => {
+            window.location.href = './pagina-2.html';
+        });
+
+        // Iniciar
+        createParticles();
+        animate();
+    </script>
+</body>
+</html>

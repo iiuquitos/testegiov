@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ᯓᡣ𐭩</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .storie-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 700px;
+            background: center/cover no-repeat;
+            background-image: url('https://cdn.discordapp.com/attachments/950742861622698034/1343327857786617958/284478944_350899293812107_7219991017308891887_n.png?ex=67bcdf0f&is=67bb8d8f&hm=30669e97e6ea6c077f3350a1acdd55309839bbdfbe5af2a766977c04e17ba8a8&');
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .progress-bars {
+            position: absolute;
+            top: 10px;
+            width: 90%;
+            left: 5%;
+            display: flex;
+            gap: 3px;
+        }
+
+        .progress-segment {
+            height: 2px;
+            background: rgba(255, 255, 255, 0.4);
+            flex-grow: 1;
+            border-radius: 1px;
+        }
+
+        .progress {
+            height: 100%;
+            background: #fff;
+            width: 100%;
+            transition: width linear;
+        }
+
+        .header {
+            position: absolute;
+            top: 30px;
+            left: 15px;
+            display: flex;
+            align-items: center;
+            color: white;
+            z-index: 2;
+        }
+
+        .profile-pic {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin-right: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .username {
+            font-size: 15px;
+            font-weight: 500;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .controls {
+            position: absolute;
+            top: 30px;
+            right: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 2;
+        }
+
+        .close-friends {
+            background: #00cc66;
+            padding: 5px 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: white;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .btn-pause {
+            background: rgba(0, 0, 0, 0.3);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .poll {
+            position: absolute;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .question {
+            color: white;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .options {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .option-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            background: white;
+            color: black;
+        }
+
+        .option-btn:hover {
+            transform: scale(1.03);
+        }
+
+        .error-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            z-index: 3;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            animation: heart-fall 3s linear;
+            z-index: 4;
+            opacity: 0;
+        }
+
+        @keyframes heart-fall {
+            0% {
+                transform: translateY(-100vh) translateX(-50%);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) translateX(50%);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="storie-container">
+        <div class="progress-bars">
+            <div class="progress-segment">
+                <div class="progress" id="progress" style="width: 100%"></div>
+            </div>
+        </div>
+
+        <div class="header">
+            <img src="https://cdn.discordapp.com/attachments/950742861622698034/1343323515121565868/gio_instagram_pfp.jpg?ex=67bcdb03&is=67bb8983&hm=d2ffca5997a014313f1e59be29b2d0bb36eb845971970af899f17eab279de3cc&" class="profile-pic" alt="Perfil">
+            <span class="username">giihf__</span>
+        </div>
+
+        <div class="controls">
+            <div class="close-friends">
+                ⭐
+            </div>
+            <button class="btn-pause" id="pauseBtn">⏸</button>
+        </div>
+
+        <div class="poll">
+            <div class="question">Você também acha que essa é a pessoa mais linda de todas?</div>
+            <div class="options">
+                <button class="option-btn yes-btn" onclick="handleAnswer(true)">SIM</button>
+                <button class="option-btn no-btn" onclick="handleAnswer(false)">NÃO</button>
+            </div>
+        </div>
+
+        <div class="error-screen" id="errorScreen">
+            <div class="error-message">🚨 Errado 🚨<br>Tente novamente!</div>
+            <div class="restart-counter" id="restartCounter"></div>
+        </div>
+    </div>
+
+    <script>
+        let timer;
+        let timeLeft = 30;
+        let isPaused = false;
+        const progress = document.getElementById('progress');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const errorScreen = document.getElementById('errorScreen');
+        const restartCounter = document.getElementById('restartCounter');
+
+        function startTimer() {
+            progress.style.transition = 'width 30s linear';
+            progress.style.width = '0%';
+
+            timer = setInterval(() => {
+                if(!isPaused) {
+                    timeLeft--;
+                    
+                    if(timeLeft <= 0) {
+                        clearInterval(timer);
+                        window.location.href = 'instagram.html';
+                    }
+                }
+            }, 1000);
+        }
+
+        function handleAnswer(answer) {
+            if(answer) {
+                createHearts();
+                setTimeout(() => {
+                    window.location.href = 'twitter.html'; // AO CLICAR EM SIM, SERÁ REDIRECIONADO PARA ESSA PÁGINA <--
+                }, 3000);
+            } else {
+                errorScreen.style.display = 'flex';
+                let count = 5;
+                restartCounter.textContent = `Reiniciando em ${count} segundos...`;
+                
+                const countdown = setInterval(() => {
+                    count--;
+                    restartCounter.textContent = `Reiniciando em ${count} segundos...`;
+                    if(count <= 0) {
+                        clearInterval(countdown);
+                        location.reload();
+                    }
+                }, 1000);
+            }
+        }
+
+        function createHearts() {
+            for(let i = 0; i < 50; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = '❤️';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 1 + 's';
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 3000);
+            }
+        }
+
+        pauseBtn.addEventListener('click', () => {
+            isPaused = !isPaused;
+            pauseBtn.textContent = isPaused ? '▶' : '⏸';
+            
+            if(isPaused) {
+                progress.style.transition = 'none';
+                const currentWidth = parseFloat(progress.style.width);
+                timeLeft = Math.round((currentWidth / 100) * 30);
+                clearInterval(timer);
+            } else {
+                progress.style.transition = `width ${timeLeft}s linear`;
+                progress.style.width = '0%';
+                startTimer();
+            }
+        });
+
+        startTimer();
+    </script>
+</body>
+</html>
