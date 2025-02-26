@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linha do Tempo do Amor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .titulo {
+            font-family: Arial, sans-serif;
+            font-size: 2.5rem;
+            color: #ff69b4;
+            text-shadow: 0 0 15px #ffffff;
+            margin-bottom: 2rem;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .timeline-container {
+            position: relative;
+            width: 80%;
+            max-width: 1200px;
+            padding: 50px 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                #ff69b4 30%, 
+                #ff69b4 70%, 
+                transparent 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 20px;
+            margin: 40px 0;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-point {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #ff0066;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-point {
+            right: -15px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-point {
+            left: -15px;
+        }
+
+        .timeline-point::before {
+            content: '❤';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
+        }
+
+        .timeline-content {
+            display: none;
+            position: absolute;
+            width: 300px;
+            padding: 20px;
+            background: rgba(255, 105, 180, 0.1);
+            border-radius: 10px;
+            border: 1px solid #ff69b4;
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.3);
+            z-index: 2;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            right: 50px;
+            top: -30px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            left: 50px;
+            top: -30px;
+        }
+
+        .timeline-item:hover {
+            opacity: 1;
+        }
+
+        .timeline-item:hover .timeline-point {
+            transform: translateY(-50%) scale(1.2);
+            box-shadow: 0 0 15px #ff0066;
+        }
+
+        .timeline-item:hover .timeline-content {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .timeline-date {
+            font-size: 1.2em;
+            color: #ff69b4;
+            margin-bottom: 10px;
+        }
+
+        .timeline-text {
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .hearts {
+            position: fixed;
+            pointer-events: none;
+            animation: hearts 3s infinite;
+        }
+
+        @keyframes hearts {
+            0% { transform: translateY(0) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(45deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="titulo">Alguns dos motivos pelos quais me apaixonei por você</h1>
+
+    <div class="timeline-container">
+        <div class="timeline-line"></div>
+
+        <!-- Item 1 -->
+        <div class="timeline-item">
+            <div class="timeline-point"></div>
+            <div class="timeline-content">
+                <div class="timeline-date">Primeiro Encontro</div>
+                <div class="timeline-text">
+                    Aquela noite especial onde tudo começou. Lembra daquela risada que me fez perceber que queria te conhecer melhor?
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="timeline-item">
+            <div class="timeline-point"></div>
+            <div class="timeline-content">
+                <div class="timeline-date">Primeira Aventura</div>
+                <div class="timeline-text">
+                    Nossa viagem inesquecível onde descobrimos que compartilhamos a mesma paixão por explorar novos lugares.
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="timeline-item">
+            <div class="timeline-point"></div>
+            <div class="timeline-content">
+                <div class="timeline-date">Momento Decisivo</div>
+                <div class="timeline-text">
+                    O dia em que percebi que não queria mais viver momentos especiais sem você ao meu lado.
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="timeline-item">
+            <div class="timeline-point"></div>
+            <div class="timeline-content">
+                <div class="timeline-date">Futuro Brilhante</div>
+                <div class="timeline-text">
+                    Todos os planos e sonhos que ainda vamos realizar juntos. Esta é só o começo da nossa história.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Adiciona efeito de corações
+        function createHearts() {
+            const heart = document.createElement('div');
+            heart.className = 'hearts';
+            heart.innerHTML = '❤';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 5000);
+        }
+
+        setInterval(createHearts, 300);
+
+        // Função para avançar a página
+        function avancarPagina() {
+            window.location.href = 'proxima_pagina.html'; // Substitua pelo link da próxima página
+        }
+
+        // Adiciona eventos de clique e tecla
+        document.addEventListener('click', avancarPagina);
+        document.addEventListener('keydown', avancarPagina);
+    </script>
+</body>
+</html>
